@@ -1,1 +1,1 @@
-# template-azure-functions
+# Template for Azure Functions
