@@ -1,1 +1,1 @@
-# Template for Azure Functions
+# Template project for Azure Functions
