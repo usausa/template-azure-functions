@@ -350,7 +350,7 @@ MigrationBackup/
 .ionide/
 
 # Custom
-**/Properties/ServiceDependencies/*
+profile.arm.json
 /Publish/
 desktop.ini
 __*
