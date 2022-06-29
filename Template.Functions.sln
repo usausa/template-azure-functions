@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ソリューション項目
 		Template.Functions.sln.DotSettings = Template.Functions.sln.DotSettings
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Template.Tests", "Template.Tests\Template.Tests.csproj", "{8AA38FDC-B97C-4418-8794-13AC3C04BFEF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,10 @@ Global
 		{AE9F01DA-BA79-45F9-B0CC-4AB2443399DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE9F01DA-BA79-45F9-B0CC-4AB2443399DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE9F01DA-BA79-45F9-B0CC-4AB2443399DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AA38FDC-B97C-4418-8794-13AC3C04BFEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AA38FDC-B97C-4418-8794-13AC3C04BFEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AA38FDC-B97C-4418-8794-13AC3C04BFEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AA38FDC-B97C-4418-8794-13AC3C04BFEF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
