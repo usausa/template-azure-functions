@@ -1,12 +1,14 @@
-namespace Template.Functions;
+namespace Template.Functions.Functions;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 
+using Template.Functions.Infrastructure;
 using Template.Services;
 
+[ExceptionLoggingFilter]
 public class HttpFunction
 {
     private readonly ILogger<HttpFunction> log;
