@@ -350,6 +350,7 @@ MigrationBackup/
 .ionide/
 
 # Custom
+local.settings.json
 profile.arm.json
 /Publish/
 desktop.ini
