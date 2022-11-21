@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
@@ -6,15 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AzureFunctionsExtension" Version="1.0.1" />
+    <PackageReference Include="AzureFunctionsExtension" Version="1.0.2" />
     <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="4.1.0" />
-    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.1.1" />
-    <PackageReference Include="AutoMapper" Version="11.0.1" />
-    <PackageReference Include="Rester.Serializers.System.Text.Json" Version="2.2.0" />
-    <PackageReference Include="Usa.Smart.Core" Version="2.1.0" />
-    <PackageReference Include="Usa.Smart.Data" Version="2.2.0" />
-    <PackageReference Include="Usa.Smart.Data.Accessor.Extensions.DependencyInjection" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.0.1" />
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.1.3" />
+    <PackageReference Include="AutoMapper" Version="12.0.0" />
+    <PackageReference Include="Rester.Serializers.System.Text.Json" Version="2.3.0" />
+    <PackageReference Include="Usa.Smart.Core" Version="2.2.0" />
+    <PackageReference Include="Usa.Smart.Data" Version="2.3.0" />
+    <PackageReference Include="Usa.Smart.Data.Accessor.Extensions.DependencyInjection" Version="2.3.0" />
   </ItemGroup>
 
   <ItemGroup>
