@@ -7,7 +7,7 @@ public sealed class ExceptionLoggingFilter : FunctionExceptionFilterAttribute
 {
     public override Task OnExceptionAsync(FunctionExceptionContext exceptionContext, CancellationToken cancellationToken)
     {
-        exceptionContext.Logger.LogError(exceptionContext.Exception, "Unhandled exception. function=[{Function}], exception=[{Exception}]", exceptionContext.FunctionName, exceptionContext.Exception);
+        exceptionContext.Logger.ErrorUnknownException(exceptionContext.Exception, exceptionContext.FunctionName);
         return Task.CompletedTask;
     }
 }

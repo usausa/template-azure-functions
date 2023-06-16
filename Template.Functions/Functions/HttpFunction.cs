@@ -26,7 +26,7 @@ public class HttpFunction
     [FunctionName("HttpFunction")]
     public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest request)
     {
-        log.LogInformation("C# HTTP trigger function processed a request.");
+        log.InfoHttpTrigger();
 
         var name = (string)request.Query["name"];
         if (String.IsNullOrEmpty(name))
