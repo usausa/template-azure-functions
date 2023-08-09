@@ -20,8 +20,6 @@ global using System.Threading.Tasks;
 
 global using Microsoft.Extensions.Logging;
 
-global using Moq;
-
 global using Smart;
 global using Smart.Collections.Generic;
 global using Smart.Text;
