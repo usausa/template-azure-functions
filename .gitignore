@@ -400,6 +400,5 @@ FodyWeavers.xsd
 # Customize
 desktop.ini
 __*
-/Publish/
-/Log/
-/Storage/
+local.settings.json
+profile.arm.json
