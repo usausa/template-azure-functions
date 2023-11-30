@@ -35,6 +35,7 @@ public class DataFunction
     }
 
     [FunctionName("DataQueryList")]
+#pragma warning disable IDE0060 // TODO delete
     public async Task<IActionResult> QueryList([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "data")] HttpRequest request)
     {
         var list = await dataService.QueryDataListAsync(null, 10, 0).ConfigureAwait(false);
@@ -42,6 +43,7 @@ public class DataFunction
         // TODO
         return new OkObjectResult(list.ToArray());
     }
+#pragma warning restore IDE0060
 
     //[FunctionName("DataQuery")]
     //public IActionResult Query([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "data/{id}")] HttpRequest request, Guid id)
