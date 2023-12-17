@@ -9,7 +9,7 @@ using Template.Functions.Infrastructure;
 using Template.Services;
 
 [ExceptionLoggingFilter]
-public class HttpFunction
+public sealed class HttpFunction
 {
     private readonly ILogger<HttpFunction> log;
 

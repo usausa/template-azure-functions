@@ -2,7 +2,7 @@ namespace Template.Functions.Functions;
 
 using Microsoft.Azure.WebJobs;
 
-public class TimerFunction
+public sealed class TimerFunction
 {
     [FunctionName("TimerFunction")]
     public void Run([TimerTrigger("0 */5 * * * *")] TimerInfo timer, ILogger log)

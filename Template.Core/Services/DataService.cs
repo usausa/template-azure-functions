@@ -5,7 +5,7 @@ using Smart.Data.Accessor;
 using Template.Accessors;
 using Template.Models;
 
-public class DataService
+public sealed class DataService
 {
     private readonly IDataAccessor dataAccessor;
 

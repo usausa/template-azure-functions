@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Template.Functions.Infrastructure;
 using Template.Services;
 
-public class DataInsertRequest
+public sealed class DataInsertRequest
 {
     public Guid Id { get; set; }
 
@@ -17,7 +17,7 @@ public class DataInsertRequest
     public bool Flag { get; set; }
 }
 
-public class DataUpdateRequest
+public sealed class DataUpdateRequest
 {
     public string Name { get; set; } = default!;
 
@@ -25,7 +25,7 @@ public class DataUpdateRequest
 }
 
 [ExceptionLoggingFilter]
-public class DataFunction
+public sealed class DataFunction
 {
     private readonly DataService dataService;
 
