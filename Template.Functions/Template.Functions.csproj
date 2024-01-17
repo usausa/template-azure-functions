@@ -8,7 +8,7 @@
   <ItemGroup>
     <PackageReference Include="AzureFunctionsExtension" Version="1.0.2" />
     <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.2" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.4" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.2.0" />
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="Rester" Version="2.5.0" />
