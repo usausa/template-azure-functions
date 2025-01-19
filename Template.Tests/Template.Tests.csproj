@@ -2,9 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <RootNamespace>Template</RootNamespace>
+    <OutputType>Exe</OutputType>
     <IsPackable>false</IsPackable>
     <CodeAnalysisRuleSet>..\Analyzers.ruleset</CodeAnalysisRuleSet>
+    <RootNamespace>Template</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
