@@ -7,6 +7,11 @@
           <Format>cobertura</Format>
           <Exclude>[*.Mock]*</Exclude>
           <ExcludeByFile>**/*.g.cs</ExcludeByFile>
+          <SingleHit>false</SingleHit>
+          <UseSourceLink>false</UseSourceLink>
+          <IncludeTestAssembly>true</IncludeTestAssembly>
+          <SkipAutoProps>true</SkipAutoProps>
+          <DeterministicReport>false</DeterministicReport>
         </Configuration>
       </DataCollector>
     </DataCollectors>
