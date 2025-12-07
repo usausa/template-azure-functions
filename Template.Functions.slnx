@@ -12,6 +12,6 @@
     <File Path="Template.Functions.sln.DotSettings" />
   </Folder>
   <Project Path="Template.Core/Template.Core.csproj" />
-  <Project Path="Template.Functions/Template.Functions.csproj" />
+  <Project Path="Template.Functions/Template.Functions.csproj" DefaultStartup="true" />
   <Project Path="Template.Tests/Template.Tests.csproj" />
 </Solution>
