@@ -2,7 +2,12 @@ namespace Template.Services;
 
 public sealed class Service
 {
-#pragma warning disable CA1822
-    public string GetTimestamp() => DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss", DateTimeFormatInfo.CurrentInfo);
-#pragma warning restore CA1822
+    private readonly TimeProvider timeProvider;
+
+    public Service(TimeProvider timeProvider)
+    {
+        this.timeProvider = timeProvider;
+    }
+
+    public string GetTimestamp() => timeProvider.GetLocalNow().ToString("yyyy/MM/dd HH:mm:ss", DateTimeFormatInfo.CurrentInfo);
 }

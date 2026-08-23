@@ -1,30 +1,14 @@
 namespace Template.Functions.Functions;
 
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Extensions.Primitives;
 
 using Template.Functions.Infrastructure;
+using Template.Functions.Models;
+using Template.Models;
 using Template.Services;
 
-public sealed class DataInsertRequest
-{
-    public Guid Id { get; set; }
-
-    public string Name { get; set; } = default!;
-
-    public bool Flag { get; set; }
-}
-
-public sealed class DataUpdateRequest
-{
-    public string Name { get; set; } = default!;
-
-    public bool Flag { get; set; }
-}
-
-[ExceptionLoggingFilter]
 public sealed class DataFunction
 {
     private readonly DataService dataService;
@@ -34,38 +18,77 @@ public sealed class DataFunction
         this.dataService = dataService;
     }
 
-    [FunctionName("DataQueryList")]
-#pragma warning disable IDE0060 // TODO delete
-    public async Task<IActionResult> QueryList([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "data")] HttpRequest request)
+    //--------------------------------------------------------------------------------
+    // Handler
+    //--------------------------------------------------------------------------------
+
+    [Function("DataQueryList")]
+    public async Task<IResult> QueryList([HttpTrigger(AuthorizationLevel.Function, "get", Route = "data")] HttpRequest request)
     {
-        var list = await dataService.QueryDataListAsync(null, 10, 0).ConfigureAwait(false);
+        var flag = ParseBool(request.Query["flag"]);
+        var limit = ParseInt(request.Query["limit"]) ?? 10;
+        var offset = ParseInt(request.Query["offset"]) ?? 0;
 
-        // TODO
-        return new OkObjectResult(list.ToArray());
+        var total = await dataService.CountDataAsync(flag).ConfigureAwait(false);
+        var list = await dataService.QueryDataListAsync(flag, limit, offset).ConfigureAwait(false);
+
+        return Results.Ok(new DataListResponse(total, list.Select(MapToResponse).ToList()));
     }
+
+    [Function("DataQuery")]
+#pragma warning disable IDE0060
+    public async Task<IResult> Query([HttpTrigger(AuthorizationLevel.Function, "get", Route = "data/{id:guid}")] HttpRequest request, Guid id)
 #pragma warning restore IDE0060
+    {
+        var entity = await dataService.QueryDataAsync(id).ConfigureAwait(false);
+        return entity is not null ? Results.Ok(MapToResponse(entity)) : Results.NotFound();
+    }
 
-    //[FunctionName("DataQuery")]
-    //public IActionResult Query([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "data/{id}")] HttpRequest request, Guid id)
-    //{
-    //    return new OkResult();
-    //}
+    [Function("DataInsert")]
+    public async Task<IResult> Insert([HttpTrigger(AuthorizationLevel.Function, "post", Route = "data")] HttpRequest request)
+    {
+        var (parameter, error) = await RequestValidator.ParseAsync<DataInsertRequest>(request).ConfigureAwait(false);
+        if (parameter is null)
+        {
+            return error!;
+        }
 
-    //[FunctionName("DataInsert")]
-    //public IActionResult Insert([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "data")] HttpRequest request)
-    //{
-    //    return new OkResult();
-    //}
+        var id = await dataService.InsertDataAsync(parameter.Name, parameter.Flag).ConfigureAwait(false);
+        return Results.Created($"/api/data/{id}", new DataInsertResponse(id));
+    }
 
-    //[FunctionName("DataUpdate")]
-    //public IActionResult Update([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "data/{id}")] HttpRequest request, Guid id)
-    //{
-    //    return new OkResult();
-    //}
+    [Function("DataUpdate")]
+    public async Task<IResult> Update([HttpTrigger(AuthorizationLevel.Function, "put", Route = "data/{id:guid}")] HttpRequest request, Guid id)
+    {
+        var (parameter, error) = await RequestValidator.ParseAsync<DataUpdateRequest>(request).ConfigureAwait(false);
+        if (parameter is null)
+        {
+            return error!;
+        }
 
-    //[FunctionName("DataDelete")]
-    //public IActionResult Delete([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "data/{id}")] HttpRequest request, Guid id)
-    //{
-    //    return new OkResult();
-    //}
+        var updated = await dataService.UpdateDataAsync(id, parameter.Name, parameter.Flag).ConfigureAwait(false);
+        return updated ? Results.NoContent() : Results.NotFound();
+    }
+
+    [Function("DataDelete")]
+#pragma warning disable IDE0060
+    public async Task<IResult> Delete([HttpTrigger(AuthorizationLevel.Function, "delete", Route = "data/{id:guid}")] HttpRequest request, Guid id)
+#pragma warning restore IDE0060
+    {
+        var deleted = await dataService.DeleteDataAsync(id).ConfigureAwait(false);
+        return deleted ? Results.NoContent() : Results.NotFound();
+    }
+
+    //--------------------------------------------------------------------------------
+    // Helper
+    //--------------------------------------------------------------------------------
+
+    private static DataResponse MapToResponse(DataEntity entity) =>
+        new(entity.Id, entity.Name, entity.Flag, entity.UpdateAt);
+
+    private static bool? ParseBool(StringValues values) =>
+        Boolean.TryParse(values, out var value) ? value : null;
+
+    private static int? ParseInt(StringValues values) =>
+        Int32.TryParse(values, NumberStyles.Integer, CultureInfo.InvariantCulture, out var value) ? value : null;
 }

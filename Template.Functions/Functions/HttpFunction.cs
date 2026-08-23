@@ -1,14 +1,10 @@
 namespace Template.Functions.Functions;
 
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Azure.Functions.Worker;
 
-using Template.Functions.Infrastructure;
 using Template.Services;
 
-[ExceptionLoggingFilter]
 public sealed class HttpFunction
 {
     private readonly ILogger<HttpFunction> log;
@@ -23,17 +19,17 @@ public sealed class HttpFunction
         this.service = service;
     }
 
-    [FunctionName("HttpFunction")]
-    public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest request)
+    [Function("HttpFunction")]
+    public IResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest request)
     {
         log.InfoHttpTrigger();
 
-        var name = (string)request.Query["name"];
+        var name = (string?)request.Query["name"];
         if (String.IsNullOrEmpty(name))
         {
-            return new BadRequestResult();
+            return Results.BadRequest();
         }
 
-        return new OkObjectResult($"{service.GetTimestamp()} : Hello, {name}.");
+        return Results.Ok($"{service.GetTimestamp()} : Hello, {name}.");
     }
 }

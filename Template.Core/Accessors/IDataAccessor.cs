@@ -11,6 +11,9 @@ public interface IDataAccessor
     [Query]
     ValueTask<List<DataEntity>> QueryDataListAsync(bool? flag, int limit, int offset);
 
+    [QueryFirstOrDefault]
+    ValueTask<DataEntity?> QueryDataAsync(Guid id);
+
     [ExecuteScalar]
     ValueTask<int> CountDataAsync(bool? flag);
 

@@ -1,12 +1,25 @@
 namespace Template.Functions.Functions;
 
-using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.Functions.Worker;
 
 public sealed class TimerFunction
 {
-    [FunctionName("TimerFunction")]
-    public void Run([TimerTrigger("0 */5 * * * *")] TimerInfo timer, ILogger log)
+    private readonly ILogger<TimerFunction> log;
+
+    private readonly TimeProvider timeProvider;
+
+    public TimerFunction(
+        ILogger<TimerFunction> log,
+        TimeProvider timeProvider)
     {
-        log.InfoTimerTrigger(DateTime.Now, timer.ScheduleStatus);
+        this.log = log;
+        this.timeProvider = timeProvider;
+    }
+
+    [Function("TimerFunction")]
+    public void Run([TimerTrigger("0 */5 * * * *")] TimerInfo timer)
+    {
+        var now = timeProvider.GetLocalNow().DateTime;
+        log.InfoTimerTrigger(now, timer.ScheduleStatus);
     }
 }
