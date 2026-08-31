@@ -1,11 +1,16 @@
 namespace Template.Functions.Functions;
 
-using Microsoft.AspNetCore.Http;
+using AzureFunctionsExtension;
+using AzureFunctionsExtension.Annotations;
+
 using Microsoft.Azure.Functions.Worker;
 
 using Template.Services;
 
-public sealed class HttpFunction
+using IActionResult = Microsoft.AspNetCore.Mvc.IActionResult;
+
+[AzureFunction]
+public sealed partial class HttpFunction
 {
     private readonly ILogger<HttpFunction> log;
 
@@ -19,12 +24,11 @@ public sealed class HttpFunction
         this.service = service;
     }
 
-    [Function("HttpFunction")]
-    public IResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest request)
+    [HttpEndpoint("get", "hello", AuthorizationLevel.Anonymous)]
+    public IActionResult Hello([FromQuery] string? name)
     {
         log.InfoHttpTrigger();
 
-        var name = (string?)request.Query["name"];
         if (String.IsNullOrEmpty(name))
         {
             return Results.BadRequest();

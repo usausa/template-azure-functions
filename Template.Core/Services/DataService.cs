@@ -1,21 +1,19 @@
 namespace Template.Services;
 
-using Smart.Data.Accessor;
-
 using Template.Accessors;
 using Template.Models;
 
 public sealed class DataService
 {
-    private readonly IDataAccessor dataAccessor;
+    private readonly DataAccessor dataAccessor;
 
     private readonly TimeProvider timeProvider;
 
     public DataService(
-        IAccessorResolver<IDataAccessor> dataAccessor,
+        DataAccessor dataAccessor,
         TimeProvider timeProvider)
     {
-        this.dataAccessor = dataAccessor.Accessor;
+        this.dataAccessor = dataAccessor;
         this.timeProvider = timeProvider;
     }
 
@@ -30,33 +28,20 @@ public sealed class DataService
 
     public async ValueTask<Guid> InsertDataAsync(string name, bool flag)
     {
-        var entity = new DataEntity
-        {
-            Id = Guid.NewGuid(),
-            Name = name,
-            Flag = flag,
-            UpdateAt = timeProvider.GetLocalNow().DateTime
-        };
-        await dataAccessor.InsertAsync(entity).ConfigureAwait(false);
-        return entity.Id;
+        var id = Guid.NewGuid();
+        await dataAccessor.InsertAsync(id, name, flag, timeProvider.GetLocalNow().DateTime).ConfigureAwait(false);
+        return id;
     }
 
     public async ValueTask<bool> UpdateDataAsync(Guid id, string name, bool flag)
     {
-        var entity = new DataEntity
-        {
-            Id = id,
-            Name = name,
-            Flag = flag,
-            UpdateAt = timeProvider.GetLocalNow().DateTime
-        };
-        var rows = await dataAccessor.UpdateAsync(entity).ConfigureAwait(false);
+        var rows = await dataAccessor.UpdateAsync(id, name, flag, timeProvider.GetLocalNow().DateTime).ConfigureAwait(false);
         return rows > 0;
     }
 
     public async ValueTask<bool> DeleteDataAsync(Guid id)
     {
-        var rows = await dataAccessor.DeleteAsync(new DataEntity { Id = id }).ConfigureAwait(false);
+        var rows = await dataAccessor.DeleteAsync(id).ConfigureAwait(false);
         return rows > 0;
     }
 }

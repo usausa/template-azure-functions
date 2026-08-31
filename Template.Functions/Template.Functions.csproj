@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
@@ -8,7 +8,8 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.ApplicationInsights.WorkerService" Version="2.23.0" />
+    <PackageReference Include="AzureFunctionsExtension" Version="2.0.0-beta4" />
+    <PackageReference Include="Microsoft.ApplicationInsights.WorkerService" Version="3.1.2" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker" Version="2.52.0" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.ApplicationInsights" Version="2.51.0" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http.AspNetCore" Version="2.1.1" />
@@ -16,9 +17,9 @@
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Timer" Version="4.3.1" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="2.1.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.2" />
-    <PackageReference Include="Usa.Smart.Core" Version="2.16.0" />
+    <PackageReference Include="Usa.Smart.Core" Version="2.19.0" />
     <PackageReference Include="Usa.Smart.Data" Version="2.11.0" />
-    <PackageReference Include="Usa.Smart.Data.Accessor.Extensions.DependencyInjection" Version="2.14.0" />
+    <PackageReference Include="Usa.Smart.Data.Accessor.Extensions.DependencyInjection" Version="3.0.0-beta7" />
   </ItemGroup>
 
   <ItemGroup>

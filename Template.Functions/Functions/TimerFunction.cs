@@ -1,8 +1,11 @@
 namespace Template.Functions.Functions;
 
+using AzureFunctionsExtension.Annotations;
+
 using Microsoft.Azure.Functions.Worker;
 
-public sealed class TimerFunction
+[AzureFunction]
+public sealed partial class TimerFunction
 {
     private readonly ILogger<TimerFunction> log;
 
@@ -16,8 +19,8 @@ public sealed class TimerFunction
         this.timeProvider = timeProvider;
     }
 
-    [Function("TimerFunction")]
-    public void Run([TimerTrigger("0 */5 * * * *")] TimerInfo timer)
+    [TimerEndpoint("0 */5 * * * *")]
+    public void ProcessTimer([FromTrigger] TimerInfo timer)
     {
         var now = timeProvider.GetLocalNow().DateTime;
         log.InfoTimerTrigger(now, timer.ScheduleStatus);

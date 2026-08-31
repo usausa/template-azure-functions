@@ -1,8 +1,9 @@
 namespace Template.Functions.Functions;
 
-using Microsoft.Azure.Functions.Worker;
+using AzureFunctionsExtension.Annotations;
 
-public sealed class QueueFunction
+[AzureFunction]
+public sealed partial class QueueFunction
 {
     private readonly ILogger<QueueFunction> log;
 
@@ -11,8 +12,8 @@ public sealed class QueueFunction
         this.log = log;
     }
 
-    [Function("QueueFunction")]
-    public void Run([QueueTrigger("template-queue")] string message)
+    [QueueEndpoint("template-queue")]
+    public void ProcessMessage([FromTrigger] string message)
     {
         log.InfoQueueTrigger(message);
     }

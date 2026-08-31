@@ -1,9 +1,9 @@
 namespace Template;
 
-public sealed class UnitTest1
+public sealed class ServiceTests
 {
     [Fact]
-    public void Test1()
+    public void GetTimestampReturnsValue()
     {
         var service = new Service(TimeProvider.System);
         Assert.NotEmpty(service.GetTimestamp());
