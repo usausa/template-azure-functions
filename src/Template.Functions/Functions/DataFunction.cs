@@ -3,8 +3,10 @@ namespace Template.Functions.Functions;
 using AzureFunctionsExtension;
 using AzureFunctionsExtension.Annotations;
 
-using Template.Functions.Mappers;
+using Smart.Mapper;
+
 using Template.Functions.Models;
+using Template.Models;
 using Template.Services;
 
 using IActionResult = Microsoft.AspNetCore.Mvc.IActionResult;
@@ -23,6 +25,9 @@ public sealed partial class DataFunction
     // Handler
     //--------------------------------------------------------------------------------
 
+    [Mapper]
+    private static partial DataResponse ToResponse(DataEntity entity);
+
     [HttpEndpoint("get", "data")]
     public async Task<IActionResult> DataQueryList(
         [FromQuery] bool? flag,
@@ -32,14 +37,14 @@ public sealed partial class DataFunction
         var total = await dataService.CountDataAsync(flag).ConfigureAwait(false);
         var list = await dataService.QueryDataListAsync(flag, limit, offset).ConfigureAwait(false);
 
-        return Results.Ok(new DataListResponse(total, list.Select(DataMapper.ToResponse).ToList()));
+        return Results.Ok(new DataListResponse(total, list.Select(ToResponse).ToList()));
     }
 
     [HttpEndpoint("get", "data/{id:guid}")]
     public async Task<IActionResult> DataQuery([FromRoute] Guid id)
     {
         var entity = await dataService.QueryDataAsync(id).ConfigureAwait(false);
-        return entity is not null ? Results.Ok(entity.ToResponse()) : Results.NotFound();
+        return entity is not null ? Results.Ok(ToResponse(entity)) : Results.NotFound();
     }
 
     [HttpEndpoint("post", "data")]
