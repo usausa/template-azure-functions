@@ -8,9 +8,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
 
+using Smart.Data;
+
+using Template.Accessors;
 using Template.Functions.Functions;
 using Template.Services;
 
@@ -22,8 +26,12 @@ internal static class HandlerTestHost
         services.AddLogging();
         services.AddAzureFunctionExtension();
         services.AddSingleton(TimeProvider.System);
+        services.AddSingleton<IDbProvider>(new DelegateDbProvider(static () => new SqlConnection("Server=(local);Database=Template;Integrated Security=true")));
+        services.AddDataAccessors(typeof(DataAccessor).Assembly);
+        services.AddSingleton<DataService>();
         services.AddSingleton<Service>();
         services.AddTransient<HttpFunction>();
+        services.AddTransient<DataFunction>();
         services.AddTransient<QueueFunction>();
         return services.BuildServiceProvider();
     }

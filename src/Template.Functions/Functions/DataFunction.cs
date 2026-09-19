@@ -14,6 +14,8 @@ using IActionResult = Microsoft.AspNetCore.Mvc.IActionResult;
 [AzureFunction]
 public sealed partial class DataFunction
 {
+    private const int MaxLimit = 200;
+
     private readonly DataService dataService;
 
     public DataFunction(DataService dataService)
@@ -34,6 +36,16 @@ public sealed partial class DataFunction
         [FromQuery] int limit = 10,
         [FromQuery] int offset = 0)
     {
+        if (limit is < 1 or > MaxLimit)
+        {
+            return Results.BadRequest("Invalid parameter: limit");
+        }
+
+        if (offset < 0)
+        {
+            return Results.BadRequest("Invalid parameter: offset");
+        }
+
         var total = await dataService.CountDataAsync(flag).ConfigureAwait(false);
         var list = await dataService.QueryDataListAsync(flag, limit, offset).ConfigureAwait(false);
 
