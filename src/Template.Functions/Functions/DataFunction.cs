@@ -28,10 +28,13 @@ public sealed partial class DataFunction
     //--------------------------------------------------------------------------------
 
     [Mapper]
-    private static partial DataResponse ToResponse(DataEntity entity);
+    private static partial DataListEntry ToListEntry(DataEntity entity);
+
+    [Mapper]
+    private static partial DataGetResponse ToGetResponse(DataEntity entity);
 
     [HttpEndpoint("get", "data")]
-    public async Task<IActionResult> DataQueryList(
+    public async Task<IActionResult> DataList(
         [FromQuery] bool? flag,
         [FromQuery] int limit = 10,
         [FromQuery] int offset = 0)
@@ -49,21 +52,21 @@ public sealed partial class DataFunction
         var total = await dataService.CountDataAsync(flag).ConfigureAwait(false);
         var list = await dataService.QueryDataListAsync(flag, limit, offset).ConfigureAwait(false);
 
-        return Results.Ok(new DataListResponse(total, list.Select(ToResponse).ToList()));
+        return Results.Ok(new DataListResponse(total, list.Select(ToListEntry).ToList()));
     }
 
     [HttpEndpoint("get", "data/{id:guid}")]
-    public async Task<IActionResult> DataQuery([FromRoute] Guid id)
+    public async Task<IActionResult> DataGet([FromRoute] Guid id)
     {
         var entity = await dataService.QueryDataAsync(id).ConfigureAwait(false);
-        return entity is not null ? Results.Ok(ToResponse(entity)) : Results.NotFound();
+        return entity is not null ? Results.Ok(ToGetResponse(entity)) : Results.NotFound();
     }
 
     [HttpEndpoint("post", "data")]
-    public async Task<IActionResult> DataInsert([FromBody] DataInsertRequest request)
+    public async Task<IActionResult> DataCreate([FromBody] DataCreateRequest request)
     {
         var id = await dataService.InsertDataAsync(request.Name, request.Flag).ConfigureAwait(false);
-        return Results.Created($"/api/data/{id}", new DataInsertResponse(id));
+        return Results.Created($"/api/data/{id}", new DataCreateResponse(id));
     }
 
     [HttpEndpoint("put", "data/{id:guid}")]
