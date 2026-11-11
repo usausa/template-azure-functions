@@ -1,6 +1,6 @@
 # Template project for Azure Functions
 
-Azure Functions (isolated worker) template (.NET 10).
+[Template](https://usausa.github.io/template/) project for Azure Functions.
 
 # ✅ Implement
 
