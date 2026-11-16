@@ -3,11 +3,10 @@ using System.Text.Json.Serialization;
 
 using AzureFunctionsExtension;
 
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 using Smart.Data;
 
@@ -30,13 +29,14 @@ builder.Services
     .ConfigureFunctionsApplicationInsights();
 
 // Extension
-builder.Services.AddAzureFunctionExtension(static c =>
+builder.Services.Configure<JsonOptions>(static options =>
 {
-    c.Options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-    c.Options.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
-    c.Options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-    c.Options.Converters.Add(new Template.Components.Json.DateTimeConverter());
+    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+    options.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    options.JsonSerializerOptions.Converters.Add(new Template.Components.Json.DateTimeConverter());
 });
+builder.Services.AddAzureFunctionExtension();
 
 // System
 builder.Services.AddSingleton(TimeProvider.System);

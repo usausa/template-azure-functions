@@ -16,6 +16,7 @@
 
 | Document | Contents |
 | --- | --- |
+| [build.md](docs/build.md) | Build (restore of the Functions project) |
 | [deploy.md](docs/deploy.md) | Zip deploy |
 
 # 🔗 Related Projects
